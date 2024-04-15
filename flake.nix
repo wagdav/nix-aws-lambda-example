@@ -1,6 +1,6 @@
 {
   description = "Example AWS Lambda Container Image";
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.05";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
 
   outputs = { self, nixpkgs }:
     let
@@ -23,7 +23,7 @@
     in
     {
 
-      defaultPackage.${system} = self.packages.${system}.containerImage;
+      defaultPackage.${system} = self.packages.${system}.lambdaImage;
 
       apps.${system} = {
         devserver = {
