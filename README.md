@@ -30,6 +30,14 @@ REPOSITORY                     TAG         IMAGE ID      CREATED             SIZ
 localhost/docker-lambda-image  latest      123c7aa2aa44  About a minute ago  712 MB
 ```
 
+Explore the image layers with [dive](https://github.com/wagoodman/dive)
+
+```
+nix run nixpkgs#dive -- docker-lambda-image
+```
+
+If you use `podman`, append `--source podman` to the previous command.
+
 ## Build the Lambda container image with Nix
 
 ```
@@ -43,6 +51,14 @@ $ docker images nix-lambda-image
 REPOSITORY                  TAG         IMAGE ID      CREATED       SIZE
 localhost/nix-lambda-image  latest      fa06e4b40d58  54 years ago  191 MB
 ```
+
+Explore the image layers with [dive](https://github.com/wagoodman/dive):
+
+```
+nix run nixpkgs#dive -- nix-lambda-image
+```
+
+If you use `podman`, append `--source podman` to the previous command.
 
 ## Run the application locally using the AWS Lambda Interface Emulator
 
