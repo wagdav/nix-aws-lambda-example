@@ -20,9 +20,9 @@ Then in from a different terminal invoke the function:
 curl -XPOST "http://localhost:8080/2015-03-31/functions/function/invocations" -d '{}'
 ```
 
-## Development 
+## Development
 
-Start a development server which restarts when `app.py` or `flake.nix` changes:
+Start a development server which restarts when `lambda_function.py` or `flake.nix` changes:
 
 ```
 nix run .#devserver

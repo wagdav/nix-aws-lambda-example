@@ -14,13 +14,13 @@
 
       pythonEnv = pkgs.python3.withPackages (ps: [ ps.awslambdaric ]);
 
-      hello-world-app = pkgs.runCommand "buildApp" { src = ./app.py; } ''
+      hello-world-app = pkgs.runCommand "buildApp" { src = ./lambda_function.py; } ''
         mkdir -p $out
-        cp $src $out/app.py
+        cp $src $out/lambda_function.py
       '';
 
       aws-lambda-rie = pkgs.writeShellScript "aws-lambda-rie" ''
-        ${pkgs.aws-lambda-rie}/bin/aws-lambda-rie ${pythonEnv}/bin/python -m awslambdaric app.handler
+        ${pkgs.aws-lambda-rie}/bin/aws-lambda-rie ${pythonEnv}/bin/python -m awslambdaric lambda_function.handler
       '';
 
       devserver = pkgs.writeShellScript "devserver" ''
