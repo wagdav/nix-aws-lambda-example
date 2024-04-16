@@ -1,2 +1,4 @@
+import sys
+
 def handler(event, context):
-    return "Hello, world!"
+    return "Hello from AWS Lambda using Python" + sys.version + "!"
