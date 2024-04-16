@@ -19,10 +19,12 @@
         cp $src $out/app.py
       '';
 
-      devserver = pkgs.writeShellScript "devserver.sh" ''
-        cd ${hello-world-app} && \
-          ${pkgs.aws-lambda-rie}/bin/aws-lambda-rie \
-          ${pythonEnv}/bin/python -m awslambdaric app.handler
+      aws-lambda-rie = pkgs.writeShellScript "aws-lambda-rie" ''
+        ${pkgs.aws-lambda-rie}/bin/aws-lambda-rie ${pythonEnv}/bin/python -m awslambdaric app.handler
+      '';
+
+      devserver = pkgs.writeShellScript "devserver" ''
+        ls *.py flake.nix | ${pkgs.entr}/bin/entr -r ${aws-lambda-rie}
       '';
     in
     {
@@ -30,6 +32,11 @@
       defaultPackage.${system} = self.packages.${system}.lambdaImage;
 
       apps.${system} = {
+        aws-lambda-rie = {
+          type = "app";
+          program = "${aws-lambda-rie}";
+        };
+
         devserver = {
           type = "app";
           program = "${devserver}";
@@ -43,7 +50,6 @@
               name = "aws-lambda-with-nix";
               config = {
                 EntryPoint = [
-                  "${pkgs.aws-lambda-rie}/bin/aws-lambda-rie"
                   "${pythonEnv}/bin/python"
                   "-m"
                   "awslambdaric"
