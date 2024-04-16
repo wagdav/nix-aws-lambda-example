@@ -1,22 +1,38 @@
 # AWS Lambda Container Image with Nix
 
-**Note**: This is an experiment.  You can find the official AWS Lambda Base
-Containers Images [here][AWSLambdaBase].
+**Note**: This is an experiment.  Follow the official instructions to build a container image for AWS Lambda [here][AWSWorkingLambdaContainerImages].
 
-## Requirements
+## Requirement
 
-Nix package manager with [flake support](https://nixos.wiki/wiki/Flakes).
+Install the [Nix package manager](https://nixos.org/download/) and enable [flake support](https://nixos.wiki/wiki/Flakes).
 
-## Run the development server
+## Run the application using AWS Lambda Interface Emulator
+
+In one terminal start the [AWS Lambda Interface Emulator][AWSLambdaRIE]:
 
 ```
-nix run github:wagdav/nix-lambda-example
+nix run github:wagdav/nix-lambda-example#aws-lambda-rie
 ```
 
-Then in a separate terminal:
+Then in from a different terminal invoke the function:
 
 ```
 curl -XPOST "http://localhost:8080/2015-03-31/functions/function/invocations" -d '{}'
 ```
 
+## Development 
+
+Start a development server which restarts when `app.py` or `flake.nix` changes:
+
+```
+nix run .#devserver
+```
+
+# Reference
+
+* [AWS Lambda Interface emulator][AWSLambdaRIE]
+* [AWS Lambda base images][AWSLambdaBase]
+
+[AWSLambdaRIE]: https://github.com/aws/aws-lambda-runtime-interface-emulator/
 [AWSLambdaBase]: https://github.com/aws/aws-lambda-base-images
+[AWSWorkingLambdaContainerImages]: https://docs.aws.amazon.com/lambda/latest/dg/images-create.html
