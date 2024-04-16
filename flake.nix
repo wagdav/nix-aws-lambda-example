@@ -6,9 +6,13 @@
     let
       system = "x86_64-linux";
 
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs
+        {
+          inherit system;
+          overlays = [ (import ./overlays/awslambdaric.nix) ];
+        };
 
-      pythonEnv = pkgs.python38.withPackages (ps: [ ps.awslambdaric ]);
+      pythonEnv = pkgs.python3.withPackages (ps: [ ps.awslambdaric ]);
 
       hello-world-app = pkgs.runCommand "buildApp" { src = ./app.py; } ''
         mkdir -p $out
